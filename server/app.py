@@ -46,9 +46,10 @@ def create_message():
     return jsonify(new_message.to_dict()), 201
 
 
+
 @app.route('/messages/<int:id>', methods=['PATCH'])
 def update_message(id):
-    message = Message.query.get(id)
+    message = db.session.get(Message, id)  # Updated to use session.get()
     
     if not message:
         return jsonify({'error': 'Message not found'}), 404
@@ -65,7 +66,7 @@ def update_message(id):
 
 @app.route('/messages/<int:id>', methods=['DELETE'])
 def delete_message(id):
-    message = Message.query.get(id)
+    message = db.session.get(Message, id)  # Updated to use session.get()
     
     if not message:
         return jsonify({'error': 'Message not found'}), 404
